@@ -50,13 +50,8 @@ Mais do que uma ferramenta de análise, o Grafix busca atuar como um apoio estra
 |-->imagens<br>
 |-->src<br>
   &emsp;|-->Entrega 1<br>
-         &emsp;&emsp;|-->Android<br>
-         &emsp;&emsp;|-->Backend<br>
-         &emsp;&emsp;|-->Web<br>
+         &emsp;&emsp;|-->Notebook.ipynb - Google Colab<br>
   &emsp;|-->Entrega 2<br>
-         &emsp;&emsp;|-->Android<br>
-         &emsp;&emsp;|-->Backend<br>
-         &emsp;&emsp;|-->Web<br>
 |readme.md<br>
 
 ## 🛠 Link para acessar o Site
