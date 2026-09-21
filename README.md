@@ -118,7 +118,6 @@ npm run start
 
 ## 🎓 Referências
 
-- <a href="https://mayayamamoto.com.br/">Maya Yamamoto RPG</a> </br>
-- <a href="https://www.youtube.com/@PhysioclemSaude">Physioclem</a> </br>
+- <a href="https://plotly.com/python/">Plotly</a> </br>
 
 
