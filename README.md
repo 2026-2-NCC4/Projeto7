@@ -24,7 +24,7 @@ Mais do que uma ferramenta de análise, o Grafix busca atuar como um apoio estra
 ## 📄 Entregas
 | **Disciplina**              | **Entrega 1**                      | **Entrega 2**                        |
 |-------------------------|--------------------------------|----------------------------------|
-| **Análise Inferencial de Dados**          | [xxxxxxxx](https://github.com/2026-1-NCC3/Projeto1/blob/main/Documentos/Entrega%201/An%C3%A1lise%20Descritiva%20de%20Dados/Entrega%201%20-%20An%C3%A1lise%20Descritiva%20de%20Dados.pdf)     | [xxxxxxxx](https://github.com/2026-1-NCC3/Projeto1/blob/main/Documentos/Entrega%202/An%C3%A1lise%20Descritiva%20de%20Dados) |
+| **Análise Inferencial de Dados**          | [Relatório da análise descritiva dos dados](./Documentos/Entrega%201/Análise%20Inferencial%20de%20Dados/Relatório%20Entrega%201.pdf)     | [xxxxxxxx](https://github.com/2026-1-NCC3/Projeto1/blob/main/Documentos/Entrega%202/An%C3%A1lise%20Descritiva%20de%20Dados) |
 | **Contabilidade e Finançass**      | [xxxxxxxx](https://github.com/2026-1-NCC3/Projeto1/blob/main/Documentos/Entrega%201/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetos%20e%20Estrutura%20de%20Dados/Diagrama%20VitalTech%20(1).pdf)       | [xxxxxxxx](https://github.com/2026-1-NCC3/Projeto1/blob/main/Documentos/Entrega%202/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetos%20e%20Estrutura%20de%20Dados/Entrega%202%20-%20Programa%C3%A7%C3%A3o%20Orientada%20a%20Objeto.pdf) |
 | **Engenharia de Software e Arquitetura de Sistemas**      | [xxxxxxxx](https://github.com/2026-1-NCC3/Projeto1/tree/main/src/Android)    | [xxxxxxxx](https://github.com/2026-1-NCC3/Projeto1/tree/main/Documentos/Entrega%202/Programa%C3%A7%C3%A3o%20para%20Dispositivos%20M%C3%B3veis)     |
 | **Projeto Interdisciplinar: Ciência de Dados**| [Dashboard - Google Colab e Documentos](https://github.com/Mura173/Projeto7/tree/main/Documentos/Entrega%201/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados)                     | [xxxxxxxx](https://github.com/2026-1-NCC3/Projeto1/blob/main/Documentos/Entrega%202/Projeto%20Interdisciplinar%20Aplicativo%20M%C3%B3vel)         |
@@ -54,58 +54,10 @@ Mais do que uma ferramenta de análise, o Grafix busca atuar como um apoio estra
   &emsp;|-->Entrega 2<br>
 |readme.md<br>
 
-## 🛠 Link para acessar o Site
 
 ## 💻 Configuração para Desenvolvimento
 ### Pré-requisitos
-Antes de começar, certifique-se de ter instalado:
-<ul>
-<li>Node.js (versão recomendada: 18+)</li>
-<li>npm </li>
-<li>Git</li>
-</ul>
-
-### Clonando o repositório
-```bash
-git clone https://github.com/2026-1-NCC3/Projeto1
-cd ./Projeto1
-```
-
-### Configurando o Back-end
-#### Criando e configurando o aquivo .env (Variáveis de ambiente)
-````bash
-cd ./src/Backend
-
-````
-#### Baixando as dependências e iniciando o servidor
-````bash
-npm install
-
-# Inicie o servidor
-npm run dev
-
-````
-### Configurando o Front-end
-
-`````bash
-(Em outro terminal)
-
-cd ./src/Web/src
-npm install
-
-# Inicie o servidor de desenvolvimento
-npm run start
-``````
-### Configurando o Aplicativo Android
-`````bash
-
-`````
-### Observações
-<ul>
-  <li>O front-end estará disponível em http://localhost:5173</li>
-  <li>O back-end estará rodando em http://localhost:3000</li>
-</ul>
-
+* Não é necessária a instalação de nehum pacote ou programa para rodar o projeto. É necessário apenas o upload da base de dados da CTI no site do Google Colab
 ## 📋 Licença/License
 <a href="https://github.com/2026-2-NCC4/Projeto7">Grafix</a> © 2026 by <a href="https://github.com/fecaphub">Enzo Henrique Neves Sena, Harry Zhu, Murilo Angelo Pimentel Braggio, Vitor Paes Kolle, FECAP</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
 <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .1em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .1em;"><img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .1em;">
