@@ -1,7 +1,7 @@
 # FECAP - Fundação de Comércio Álvares Penteado
 
 <p align="center">
-<a href= "https://github.com/2026-2-NCC4/Projeto7"><img src="Imagens/logo_Grafix.png" alt="Logo = Grafix" width="30%" border="0"></a>
+<a href= "https://github.com/2026-2-NCC4/Projeto4"><img src="./img/logo_chique.jpg" alt="Logo = Grafix" width="30%" border="0"></a>
 </p>
 
 # Grafix
