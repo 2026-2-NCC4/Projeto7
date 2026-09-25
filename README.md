@@ -27,7 +27,7 @@ Mais do que uma ferramenta de análise, o Grafix busca atuar como um apoio estra
 | **Análise Inferencial de Dados**          | [xxxxxxxx](https://github.com/2026-1-NCC3/Projeto1/blob/main/Documentos/Entrega%201/An%C3%A1lise%20Descritiva%20de%20Dados/Entrega%201%20-%20An%C3%A1lise%20Descritiva%20de%20Dados.pdf)     | [xxxxxxxx](https://github.com/2026-1-NCC3/Projeto1/blob/main/Documentos/Entrega%202/An%C3%A1lise%20Descritiva%20de%20Dados) |
 | **Contabilidade e Finançass**      | [xxxxxxxx](https://github.com/2026-1-NCC3/Projeto1/blob/main/Documentos/Entrega%201/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetos%20e%20Estrutura%20de%20Dados/Diagrama%20VitalTech%20(1).pdf)       | [xxxxxxxx](https://github.com/2026-1-NCC3/Projeto1/blob/main/Documentos/Entrega%202/Programa%C3%A7%C3%A3o%20Orientada%20a%20Objetos%20e%20Estrutura%20de%20Dados/Entrega%202%20-%20Programa%C3%A7%C3%A3o%20Orientada%20a%20Objeto.pdf) |
 | **Engenharia de Software e Arquitetura de Sistemas**      | [xxxxxxxx](https://github.com/2026-1-NCC3/Projeto1/tree/main/src/Android)    | [xxxxxxxx](https://github.com/2026-1-NCC3/Projeto1/tree/main/Documentos/Entrega%202/Programa%C3%A7%C3%A3o%20para%20Dispositivos%20M%C3%B3veis)     |
-| **Projeto Interdisciplinar: Ciência de Dados**| [xxxxxxxx](https://github.com/2026-1-NCC3/Projeto1/blob/main/Documentos/Entrega%201/Projeto%20Interdisciplinar%20Aplicativo%20M%C3%B3vel/vitaltech_maya.apk)                     | [xxxxxxxx](https://github.com/2026-1-NCC3/Projeto1/blob/main/Documentos/Entrega%202/Projeto%20Interdisciplinar%20Aplicativo%20M%C3%B3vel)         |
+| **Projeto Interdisciplinar: Ciência de Dados**| [Dashboard - Google Colab e Documentos](https://github.com/Mura173/Projeto7/tree/main/Documentos/Entrega%201/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados)                     | [xxxxxxxx](https://github.com/2026-1-NCC3/Projeto1/blob/main/Documentos/Entrega%202/Projeto%20Interdisciplinar%20Aplicativo%20M%C3%B3vel)         |
 
 
 </br>
@@ -41,48 +41,20 @@ Mais do que uma ferramenta de análise, o Grafix busca atuar como um apoio estra
       &emsp;&emsp;|-->Análise Inferencial de Dados<br>
       &emsp;&emsp;|-->Contabilidade e Finanças<br>
       &emsp;&emsp;|-->Engenharia de Software e Arquitetura de Sistemas<br>
-      &emsp;&emsp;|-->Projeto Interdisciplinar: Ciência de Dados<br>
+      &emsp;&emsp;|-->Projeto Interdisciplinar Ciência de Dados<br>
   &emsp;|-->Entrega 2<br>
       &emsp;&emsp;|-->Análise Inferencial de Dados<br>
       &emsp;&emsp;|-->Contabilidade e Finanças<br>
       &emsp;&emsp;|-->Engenharia de Software e Arquitetura de Sistemas<br>
-      &emsp;&emsp;|-->Projeto Interdisciplinar: Ciência de Dados<br>
+      &emsp;&emsp;|-->Projeto Interdisciplinar Ciência de Dados<br>
 |-->imagens<br>
 |-->src<br>
   &emsp;|-->Entrega 1<br>
-         &emsp;&emsp;|-->Android<br>
-         &emsp;&emsp;|-->Backend<br>
-         &emsp;&emsp;|-->Web<br>
+         &emsp;&emsp;|-->Notebook.ipynb - Google Colab<br>
   &emsp;|-->Entrega 2<br>
-         &emsp;&emsp;|-->Android<br>
-         &emsp;&emsp;|-->Backend<br>
-         &emsp;&emsp;|-->Web<br>
 |readme.md<br>
 
 ## 🛠 Link para acessar o Site
-
-https://mayayamamoto-vitaltech.vercel.app/
-
-Login: maya@vitaltech.com <br>
-Senha: senha123
-
-## 📱 Acessar aplicação Android
-
-> ⚠️ **Importante:** o aplicativo está disponível apenas para dispositivos Android.
-
-### 📥 Download do APK
-
-[Clique aqui para baixar o aplicativo](https://github.com/2026-1-NCC3/Projeto1/blob/main/Documentos/Entrega%202/Projeto%20Interdisciplinar%20Aplicativo%20M%C3%B3vel/mayayamamoto.apk)
-
-Login: mauricio@gmail.com<br>
-Senha: 1234
-
-### 📌 Como instalar
-
-1. Baixe o arquivo `.apk`
-2. Abra o arquivo no celular Android
-3. Caso solicitado, permita a instalação de fontes desconhecidas
-4. Finalize a instalação normalmente
 
 ## 💻 Configuração para Desenvolvimento
 ### Pré-requisitos
@@ -141,7 +113,6 @@ npm run start
 
 ## 🎓 Referências
 
-- <a href="https://mayayamamoto.com.br/">Maya Yamamoto RPG</a> </br>
-- <a href="https://www.youtube.com/@PhysioclemSaude">Physioclem</a> </br>
+- <a href="https://plotly.com/python/">Plotly</a> </br>
 
 
