@@ -1,0 +1,31 @@
+coluna,nome,grupo,formula,unidade,direcao
+receita_liquida,Receita líquida,KPIs principais,dre_receita + dre_tributos,R$,maior é melhor
+ebitda,EBITDA,KPIs principais,dre_ebitda (linha da base),R$,maior é melhor
+margem_ebitda,Margem EBITDA,KPIs principais,ebitda / receita_liquida,%,maior é melhor
+lucro_liquido,Lucro líquido,KPIs principais,dre_resultado_liquido,R$,maior é melhor
+saldo_final_caixa,Saldo final de caixa,KPIs principais,flu_saldo_final,R$,maior é melhor
+eva,EVA,KPIs principais,ebit x (1 - ALIQUOTA_IR) - capital_investido x WACC,R$,maior é melhor
+ebit,EBIT,Auxiliares,dre_resultado_operacional,R$,maior é melhor
+capital_investido,Capital investido,Auxiliares,-(PL + empréstimos CP + empréstimos LP),R$,neutro
+dfc_recebimentos,Recebimentos,Fluxo de caixa direto,flu_receita,R$,maior é melhor
+dfc_pagamentos,Pagamentos operacionais,Fluxo de caixa direto,flu_tributos + flu_custos + flu_imposto_de_renda_e_contribuicao_social,R$,neutro
+dfc_fco,Caixa operacional (FCO),Fluxo de caixa direto,dfc_recebimentos + dfc_pagamentos,R$,maior é melhor
+dfc_investimentos,Investimentos,Fluxo de caixa direto,flu_investimentos,R$,neutro
+dfc_juros_liquidos,Juros líquidos,Fluxo de caixa direto,flu_resultado_financeiro,R$,neutro
+dfc_dividendos,Dividendos,Fluxo de caixa direto,flu_distribuicao_para_acionista,R$,neutro
+dfc_financiamento,Fluxo de financiamento,Fluxo de caixa direto,dfc_juros_liquidos + dfc_dividendos,R$,neutro
+dfc_variacao_liquida,Variação líquida do caixa,Fluxo de caixa direto,dfc_fco + dfc_investimentos + dfc_financiamento,R$,maior é melhor
+dfc_caixa_inicial,Caixa inicial,Fluxo de caixa direto,flu_saldo_inicial,R$,neutro
+dfc_caixa_final,Caixa final,Fluxo de caixa direto,dfc_caixa_inicial + dfc_variacao_liquida,R$,maior é melhor
+taxa_conversao,Taxa de conversão,Índices da DFC,dfc_recebimentos / dre_receita,%,maior é melhor
+fcl,Fluxo de caixa livre (FCL),Índices da DFC,dfc_fco + dfc_investimentos,R$,maior é melhor
+fco_ebitda,FCO / EBITDA,Índices da DFC,dfc_fco / ebitda,x,maior é melhor
+fco_lucro_liquido,FCO / Lucro líquido,Índices da DFC,dfc_fco / lucro_liquido,x,maior é melhor
+capex_receita,Capex / Receita,Índices da DFC,|dfc_investimentos| / dre_receita,%,neutro
+capex_da,Capex / D&A,Índices da DFC,|dfc_investimentos| / |dre_depreciacao_e_amortizacao|,x,neutro
+cobertura_juros_caixa,Cobertura de juros em caixa,Índices da DFC,dfc_fco / |flu_despesas_financeiras|,x,maior é melhor
+payout_caixa,Payout em caixa,Índices da DFC,|dfc_dividendos| / lucro_liquido,%,neutro
+cobertura_dividendos,Cobertura de dividendos,Índices da DFC,fcl / |dfc_dividendos|,x,maior é melhor
+pmr,Prazo médio de recebimento (PMR),Capital de giro,bal_contas_a_receber_clientes / dre_receita x 360,dias,menor é melhor
+pmp,Prazo médio de pagamento (PMP),Capital de giro,|bal_fornecedores| / |dre_custos| x 360,dias,neutro
+ciclo_financeiro,Ciclo financeiro,Capital de giro,pmr - pmp,dias,menor é melhor
