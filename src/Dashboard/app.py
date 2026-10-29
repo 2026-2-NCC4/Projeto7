@@ -10,14 +10,45 @@ import streamlit as st
 PASTA_STAGING = Path(__file__).resolve().parent.parent / "Staging"
 ANO_BASE = 2026
 OPCAO_MEDIANA = "Mediana dos 1.200 cenários"
-KPIS_PRINCIPAIS = [
-    "receita_liquida",
-    "ebitda",
-    "margem_ebitda",
-    "lucro_liquido",
-    "saldo_final_caixa",
-    "eva",
-]
+PERSPECTIVAS = {
+    "Gestão": {
+        "pergunta": "Como estão a operação e o caixa?",
+        "kpis": [
+            "receita_liquida",
+            "ebitda",
+            "margem_ebitda",
+            "dfc_fco",
+            "saldo_final_caixa",
+            "dfc_variacao_liquida",
+        ],
+        "colunas": 3,
+    },
+    "Investidores": {
+        "pergunta": "O negócio gera retorno e distribui dividendos com folga?",
+        "kpis": [
+            "lucro_liquido",
+            "eva",
+            "fcl",
+            "dfc_dividendos",
+            "payout_caixa",
+            "cobertura_dividendos",
+        ],
+        "colunas": 3,
+    },
+    "Controle": {
+        "pergunta": "O lucro vira caixa? Como estão a cobertura de juros e os prazos?",
+        "kpis": [
+            "taxa_conversao",
+            "fco_ebitda",
+            "fco_lucro_liquido",
+            "cobertura_juros_caixa",
+            "pmr",
+            "pmp",
+            "ciclo_financeiro",
+        ],
+        "colunas": 4,
+    },
+}
 COR_DO_DELTA = {"maior é melhor": "normal", "menor é melhor": "inverse", "neutro": "off"}
 
 
@@ -89,20 +120,37 @@ def mostrar_cartao(coluna_da_tela, kpi, catalogo, percentis, kpis, cenario, ano_
 
     faixa = linha_de_percentis(percentis, kpi, ano_num)
     mediana = faixa["p50"]
-    texto_faixa = formatar(faixa["p5"], unidade) + " a " + formatar(faixa["p95"], unidade)
 
     with coluna_da_tela:
+        if cenario == OPCAO_MEDIANA:
+            valor = mediana
+        else:
+            valor = valor_do_cenario(kpis, cenario, ano_num, kpi)
+
+        if pd.isna(valor) or pd.isna(mediana):
+            st.metric(nome, "n/d")
+            st.caption("Sem valor neste ano: a conta não existe no encerramento da concessão.")
+            return
+
+        texto_faixa = formatar(faixa["p5"], unidade) + " a " + formatar(faixa["p95"], unidade)
         if cenario == OPCAO_MEDIANA:
             st.metric(nome, formatar(mediana, unidade))
             st.caption("Faixa de 90% dos cenários: " + texto_faixa)
         else:
-            valor = valor_do_cenario(kpis, cenario, ano_num, kpi)
             diferenca = formatar_diferenca(valor - mediana, unidade) + " vs mediana"
             st.metric(nome, formatar(valor, unidade), delta=diferenca, delta_color=COR_DO_DELTA[direcao])
             texto = "Mediana: " + formatar(mediana, unidade) + " | faixa de 90%: " + texto_faixa
             if valor < faixa["p5"] or valor > faixa["p95"]:
                 texto = texto + " | fora da faixa de 90%"
             st.caption(texto)
+
+
+def mostrar_cartoes(lista_de_kpis, colunas_por_linha, catalogo, percentis, kpis, cenario, ano_num):
+    for inicio in range(0, len(lista_de_kpis), colunas_por_linha):
+        kpis_da_linha = lista_de_kpis[inicio:inicio + colunas_por_linha]
+        colunas_da_tela = st.columns(colunas_por_linha)
+        for coluna_da_tela, kpi in zip(colunas_da_tela, kpis_da_linha):
+            mostrar_cartao(coluna_da_tela, kpi, catalogo, percentis, kpis, cenario, ano_num)
 
 
 def main():
@@ -134,9 +182,21 @@ def main():
 
     st.subheader(cenario + " - " + rotulo_ano(ano_num))
 
-    colunas_da_tela = st.columns(3) + st.columns(3)
-    for coluna_da_tela, kpi in zip(colunas_da_tela, KPIS_PRINCIPAIS):
-        mostrar_cartao(coluna_da_tela, kpi, catalogo, percentis, kpis, cenario, ano_num)
+    nomes_das_abas = list(PERSPECTIVAS)
+    abas = st.tabs(nomes_das_abas)
+    for aba, nome_da_aba in zip(abas, nomes_das_abas):
+        perspectiva = PERSPECTIVAS[nome_da_aba]
+        with aba:
+            st.markdown("**" + perspectiva["pergunta"] + "**")
+            mostrar_cartoes(
+                perspectiva["kpis"],
+                perspectiva["colunas"],
+                catalogo,
+                percentis,
+                kpis,
+                cenario,
+                ano_num,
+            )
 
     st.caption(
         "Fonte: CTI Global, projeção anonimizada (Ano 1 = 2027). A mediana é calculada por KPI "
