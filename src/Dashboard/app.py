@@ -59,6 +59,19 @@ TITULO_DO_EIXO = {"R$": "R$ milhões", "%": "%", "dias": "dias", "x": "vezes (x)
 COR_DA_FAIXA = "rgba(31, 119, 180, 0.20)"
 COR_DA_MEDIANA = "#1f77b4"
 COR_DO_CENARIO = "#d62728"
+LIMITE_CAIXA_ZERADO = 1e6
+EVENTOS_ADVERSOS = [
+    "Caixa zerado (até R$ 1 mi)",
+    "Caixa cai no ano",
+    "Payout acima de 100%",
+    "Cobertura de dividendos abaixo de 1",
+]
+COR_DOS_EVENTOS = {
+    "Caixa zerado (até R$ 1 mi)": "#d62728",
+    "Caixa cai no ano": "#ff7f0e",
+    "Payout acima de 100%": "#2ca02c",
+    "Cobertura de dividendos abaixo de 1": "#9467bd",
+}
 
 
 @st.cache_data
@@ -248,6 +261,101 @@ def montar_grafico_faixa(kpi, catalogo, percentis, kpis, cenario, ano_num):
     return figura
 
 
+def marcar_eventos(kpis):
+    return pd.DataFrame(
+        {
+            "ano_num": kpis["ano_num"],
+            "ano_calendario": kpis["ano_calendario"],
+            EVENTOS_ADVERSOS[0]: kpis["saldo_final_caixa"] <= LIMITE_CAIXA_ZERADO,
+            EVENTOS_ADVERSOS[1]: kpis["dfc_variacao_liquida"] < 0,
+            EVENTOS_ADVERSOS[2]: kpis["payout_caixa"] > 1,
+            EVENTOS_ADVERSOS[3]: kpis["cobertura_dividendos"] < 1,
+        }
+    )
+
+
+def calcular_risco_por_ano(kpis):
+    eventos = marcar_eventos(kpis)
+    por_ano = eventos.groupby(["ano_num", "ano_calendario"])[EVENTOS_ADVERSOS]
+    contagem = por_ano.sum().reset_index()
+    percentual = por_ano.mean().mul(100).reset_index()
+    return contagem, percentual
+
+
+def mostrar_cartoes_de_risco(contagem, percentual, ano_num, total_de_cenarios):
+    linha_contagem = contagem[contagem["ano_num"] == ano_num].iloc[0]
+    linha_percentual = percentual[percentual["ano_num"] == ano_num].iloc[0]
+    for coluna_da_tela, evento in zip(st.columns(4), EVENTOS_ADVERSOS):
+        with coluna_da_tela:
+            st.metric(evento, numero_br(linha_percentual[evento], 1) + "%")
+            st.caption(
+                numero_br(linha_contagem[evento], 0)
+                + " de "
+                + numero_br(total_de_cenarios, 0)
+                + " cenários"
+            )
+
+
+def montar_grafico_risco(percentual, ano_num):
+    figura = go.Figure()
+    for evento in EVENTOS_ADVERSOS:
+        figura.add_trace(
+            go.Scatter(
+                x=percentual["ano_calendario"],
+                y=percentual[evento],
+                mode="lines+markers",
+                line={"color": COR_DOS_EVENTOS[evento], "width": 4 if evento == EVENTOS_ADVERSOS[0] else 2},
+                name=evento,
+                hovertemplate=evento + ": %{y:,.1f}%<extra></extra>",
+            )
+        )
+    figura.add_vrect(
+        x0=ANO_BASE + 11.5,
+        x1=ANO_BASE + 12.5,
+        fillcolor="gray",
+        opacity=0.12,
+        line_width=0,
+        annotation_text="encerramento",
+        annotation_position="top left",
+        annotation_textangle=-90,
+    )
+    figura.add_vline(x=ANO_BASE + ano_num, line_dash="dot", line_color="gray")
+    figura.update_layout(
+        title="% dos cenários em que o evento ocorre, por ano",
+        height=400,
+        separators=",.",
+        hovermode="x unified",
+        legend={"orientation": "h", "y": -0.2},
+        margin={"l": 60, "r": 10, "t": 50, "b": 10},
+        xaxis={"dtick": 1, "range": [ANO_BASE + 0.5, ANO_BASE + 12.5], "title": None},
+        yaxis={"title": "% dos cenários", "range": [-3, 103], "automargin": True},
+    )
+    return figura
+
+
+def nota_de_risco(kpis):
+    total = kpis["cenario"].nunique()
+    texto = (
+        "Percentuais sobre os "
+        + numero_br(total, 0)
+        + " cenários da CTI. 0% e 100% indicam eventos que ocorrem igual em todos os cenários."
+    )
+
+    caixa_zerado = kpis[kpis["saldo_final_caixa"] <= LIMITE_CAIXA_ZERADO]
+    if not caixa_zerado.empty:
+        primeiro = int(caixa_zerado["cenario_num"].min())
+        ultimo = int(caixa_zerado["cenario_num"].max())
+        texto = texto + f" Na base, os casos de caixa zerado estão nos cenários numerados de {primeiro} a {ultimo}."
+
+    if (kpis["lucro_liquido"] < 0).sum() == 0 and (kpis["eva"] < 0).sum() == 0:
+        texto = texto + " Prejuízo líquido e EVA negativo não ocorrem em nenhum cenário e ano."
+
+    extremos = kpis.groupby("ano_num")["dfc_dividendos"].agg(["min", "max"])
+    anos_com_dividendo_fixo = int(((extremos["max"] - extremos["min"]).abs() < 1).sum())
+    texto = texto + f" Os dividendos pagos são iguais em todos os cenários em {anos_com_dividendo_fixo} dos 12 anos."
+    return texto
+
+
 def main():
     st.set_page_config(page_title="Grafix - CTI", layout="wide")
 
@@ -303,6 +411,14 @@ def main():
             )
             figura = montar_grafico_faixa(kpi_do_grafico, catalogo, percentis, kpis, cenario, ano_num)
             st.plotly_chart(figura, key="grafico_" + nome_da_aba)
+
+    st.subheader("Risco ao longo dos anos")
+    st.write("Em quantos dos cenários cada evento acontece, ano a ano.")
+    contagem, percentual = calcular_risco_por_ano(kpis)
+    total_de_cenarios = kpis["cenario"].nunique()
+    mostrar_cartoes_de_risco(contagem, percentual, ano_num, total_de_cenarios)
+    st.plotly_chart(montar_grafico_risco(percentual, ano_num), key="grafico_risco")
+    st.caption(nota_de_risco(kpis))
 
     st.caption(
         "Fonte: CTI Global, projeção anonimizada (Ano 1 = 2027). A mediana é calculada por KPI "
