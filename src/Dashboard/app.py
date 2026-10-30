@@ -5,6 +5,7 @@ Dados (src/Staging): kpis.parquet, kpi_catalogo.csv e percentis.csv.
 from pathlib import Path
 
 import pandas as pd
+import plotly.graph_objects as go
 import streamlit as st
 
 PASTA_STAGING = Path(__file__).resolve().parent.parent / "Staging"
@@ -21,6 +22,7 @@ PERSPECTIVAS = {
             "saldo_final_caixa",
             "dfc_variacao_liquida",
         ],
+        "kpi_padrao": "saldo_final_caixa",
         "colunas": 3,
     },
     "Investidores": {
@@ -33,6 +35,7 @@ PERSPECTIVAS = {
             "payout_caixa",
             "cobertura_dividendos",
         ],
+        "kpi_padrao": "cobertura_dividendos",
         "colunas": 3,
     },
     "Controle": {
@@ -46,10 +49,16 @@ PERSPECTIVAS = {
             "pmp",
             "ciclo_financeiro",
         ],
+        "kpi_padrao": "fco_lucro_liquido",
         "colunas": 4,
     },
 }
 COR_DO_DELTA = {"maior é melhor": "normal", "menor é melhor": "inverse", "neutro": "off"}
+CASAS_DECIMAIS = {"R$": 0, "%": 1, "dias": 1, "x": 2}
+TITULO_DO_EIXO = {"R$": "R$ milhões", "%": "%", "dias": "dias", "x": "vezes (x)"}
+COR_DA_FAIXA = "rgba(31, 119, 180, 0.20)"
+COR_DA_MEDIANA = "#1f77b4"
+COR_DO_CENARIO = "#d62728"
 
 
 @st.cache_data
@@ -153,6 +162,92 @@ def mostrar_cartoes(lista_de_kpis, colunas_por_linha, catalogo, percentis, kpis,
             mostrar_cartao(coluna_da_tela, kpi, catalogo, percentis, kpis, cenario, ano_num)
 
 
+def converter_para_exibicao(valores, unidade):
+    if unidade == "R$":
+        return valores / 1e6
+    if unidade == "%":
+        return valores * 100
+    return valores
+
+
+def montar_grafico_faixa(kpi, catalogo, percentis, kpis, cenario, ano_num):
+    nome = catalogo.loc[kpi, "nome"]
+    unidade = catalogo.loc[kpi, "unidade"]
+    formato = "%{y:,." + str(CASAS_DECIMAIS[unidade]) + "f}"
+
+    serie = percentis[percentis["kpi"] == kpi].sort_values("ano_num")
+    anos = serie["ano_calendario"]
+
+    figura = go.Figure()
+    figura.add_trace(
+        go.Scatter(
+            x=anos,
+            y=converter_para_exibicao(serie["p95"], unidade),
+            mode="lines",
+            line={"width": 0},
+            showlegend=False,
+            hovertemplate="P95: " + formato + "<extra></extra>",
+        )
+    )
+    figura.add_trace(
+        go.Scatter(
+            x=anos,
+            y=converter_para_exibicao(serie["p5"], unidade),
+            mode="lines",
+            line={"width": 0},
+            fill="tonexty",
+            fillcolor=COR_DA_FAIXA,
+            name="Faixa de 90% (P5 a P95)",
+            hovertemplate="P5: " + formato + "<extra></extra>",
+        )
+    )
+    figura.add_trace(
+        go.Scatter(
+            x=anos,
+            y=converter_para_exibicao(serie["p50"], unidade),
+            mode="lines+markers",
+            line={"color": COR_DA_MEDIANA},
+            name="Mediana dos 1.200 cenários",
+            hovertemplate="Mediana: " + formato + "<extra></extra>",
+        )
+    )
+    if cenario != OPCAO_MEDIANA:
+        linhas = kpis[kpis["cenario"] == cenario].sort_values("ano_num")
+        figura.add_trace(
+            go.Scatter(
+                x=linhas["ano_calendario"],
+                y=converter_para_exibicao(linhas[kpi], unidade),
+                mode="lines+markers",
+                line={"color": COR_DO_CENARIO},
+                name=cenario,
+                hovertemplate=cenario + ": " + formato + "<extra></extra>",
+            )
+        )
+
+    figura.add_vrect(
+        x0=ANO_BASE + 11.5,
+        x1=ANO_BASE + 12.5,
+        fillcolor="gray",
+        opacity=0.12,
+        line_width=0,
+        annotation_text="encerramento",
+        annotation_position="top left",
+        annotation_textangle=-90,
+    )
+    figura.add_vline(x=ANO_BASE + ano_num, line_dash="dot", line_color="gray")
+    figura.update_layout(
+        title=nome + " por ano",
+        height=380,
+        separators=",.",
+        hovermode="x unified",
+        legend={"orientation": "h", "y": -0.2},
+        margin={"l": 60, "r": 10, "t": 50, "b": 10},
+        xaxis={"dtick": 1, "range": [ANO_BASE + 0.5, ANO_BASE + 12.5], "title": None},
+        yaxis={"title": TITULO_DO_EIXO[unidade], "automargin": True},
+    )
+    return figura
+
+
 def main():
     st.set_page_config(page_title="Grafix - CTI", layout="wide")
 
@@ -197,6 +292,17 @@ def main():
                 cenario,
                 ano_num,
             )
+
+            nomes_dos_kpis = {kpi: catalogo.loc[kpi, "nome"] for kpi in perspectiva["kpis"]}
+            kpi_do_grafico = st.selectbox(
+                "Indicador no gráfico",
+                perspectiva["kpis"],
+                index=perspectiva["kpis"].index(perspectiva["kpi_padrao"]),
+                format_func=nomes_dos_kpis.get,
+                key="indicador_" + nome_da_aba,
+            )
+            figura = montar_grafico_faixa(kpi_do_grafico, catalogo, percentis, kpis, cenario, ano_num)
+            st.plotly_chart(figura, key="grafico_" + nome_da_aba)
 
     st.caption(
         "Fonte: CTI Global, projeção anonimizada (Ano 1 = 2027). A mediana é calculada por KPI "
