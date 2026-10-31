@@ -1,373 +1,26 @@
 """
-Dados (src/Staging): kpis.parquet, kpi_catalogo.csv e percentis.csv.
+Dashboard Grafix (case CTI Global): monta a página e chama uma função por seção.
 """
 
-from pathlib import Path
-
-import pandas as pd
-import plotly.graph_objects as go
 import streamlit as st
 
-PASTA_STAGING = Path(__file__).resolve().parent.parent / "Staging"
-ANO_BASE = 2026
-OPCAO_MEDIANA = "Mediana dos 1.200 cenários"
-PERSPECTIVAS = {
-    "Gestão": {
-        "pergunta": "Como estão a operação e o caixa?",
-        "kpis": [
-            "receita_liquida",
-            "ebitda",
-            "margem_ebitda",
-            "dfc_fco",
-            "saldo_final_caixa",
-            "dfc_variacao_liquida",
-        ],
-        "kpi_padrao": "saldo_final_caixa",
-        "colunas": 3,
-    },
-    "Investidores": {
-        "pergunta": "O negócio gera retorno e distribui dividendos com folga?",
-        "kpis": [
-            "lucro_liquido",
-            "eva",
-            "fcl",
-            "dfc_dividendos",
-            "payout_caixa",
-            "cobertura_dividendos",
-        ],
-        "kpi_padrao": "cobertura_dividendos",
-        "colunas": 3,
-    },
-    "Controle": {
-        "pergunta": "O lucro vira caixa? Como estão a cobertura de juros e os prazos?",
-        "kpis": [
-            "taxa_conversao",
-            "fco_ebitda",
-            "fco_lucro_liquido",
-            "cobertura_juros_caixa",
-            "pmr",
-            "pmp",
-            "ciclo_financeiro",
-        ],
-        "kpi_padrao": "fco_lucro_liquido",
-        "colunas": 4,
-    },
-}
-COR_DO_DELTA = {"maior é melhor": "normal", "menor é melhor": "inverse", "neutro": "off"}
-CASAS_DECIMAIS = {"R$": 0, "%": 1, "dias": 1, "x": 2}
-TITULO_DO_EIXO = {"R$": "R$ milhões", "%": "%", "dias": "dias", "x": "vezes (x)"}
-COR_DA_FAIXA = "rgba(31, 119, 180, 0.20)"
-COR_DA_MEDIANA = "#1f77b4"
-COR_DO_CENARIO = "#d62728"
-LIMITE_CAIXA_ZERADO = 1e6
-EVENTOS_ADVERSOS = [
-    "Caixa zerado (até R$ 1 mi)",
-    "Caixa cai no ano",
-    "Payout acima de 100%",
-    "Cobertura de dividendos abaixo de 1",
-]
-COR_DOS_EVENTOS = {
-    "Caixa zerado (até R$ 1 mi)": "#d62728",
-    "Caixa cai no ano": "#ff7f0e",
-    "Payout acima de 100%": "#2ca02c",
-    "Cobertura de dividendos abaixo de 1": "#9467bd",
-}
+from configuracao import OPCAO_MEDIANA
+from dados import carregar_catalogo, carregar_kpis, carregar_percentis
+from formatacao import rotulo_ano
+from secoes.ano_12 import mostrar_ano_12
+from secoes.perspectivas import mostrar_perspectivas
+from secoes.risco import mostrar_risco
 
 
-@st.cache_data
-def carregar_kpis():
-    return pd.read_parquet(PASTA_STAGING / "kpis.parquet")
-
-
-@st.cache_data
-def carregar_catalogo():
-    return pd.read_csv(PASTA_STAGING / "kpi_catalogo.csv").set_index("coluna")
-
-
-@st.cache_data
-def carregar_percentis():
-    return pd.read_csv(PASTA_STAGING / "percentis.csv")
-
-
-def numero_br(valor, casas):
-    texto = f"{valor:,.{casas}f}"
-    return texto.replace(",", "X").replace(".", ",").replace("X", ".")
-
-
-def formatar(valor, unidade):
-    if pd.isna(valor):
-        return "n/d"
-    if unidade == "R$":
-        return "R$ " + numero_br(valor / 1e6, 0) + " mi"
-    if unidade == "%":
-        return numero_br(valor * 100, 1) + "%"
-    if unidade == "dias":
-        return numero_br(valor, 1) + " dias"
-    return numero_br(valor, 2) + "x"
-
-
-def formatar_diferenca(diferenca, unidade):
-    sinal = "+" if diferenca >= 0 else "-"
-    absoluto = abs(diferenca)
-    if unidade == "R$":
-        return sinal + "R$ " + numero_br(absoluto / 1e6, 0) + " mi"
-    if unidade == "%":
-        return sinal + numero_br(absoluto * 100, 1) + " p.p."
-    if unidade == "dias":
-        return sinal + numero_br(absoluto, 1) + " dias"
-    return sinal + numero_br(absoluto, 2) + "x"
-
-
-def rotulo_ano(ano_num):
-    texto = f"{ANO_BASE + ano_num} (Ano {ano_num})"
-    if ano_num == 12:
-        texto = texto + " - encerramento"
-    return texto
-
-
-def linha_de_percentis(percentis, kpi, ano_num):
-    filtro = (percentis["kpi"] == kpi) & (percentis["ano_num"] == ano_num)
-    return percentis[filtro].iloc[0]
-
-
-def valor_do_cenario(kpis, cenario, ano_num, kpi):
-    filtro = (kpis["cenario"] == cenario) & (kpis["ano_num"] == ano_num)
-    return kpis[filtro][kpi].iloc[0]
-
-
-def mostrar_cartao(coluna_da_tela, kpi, catalogo, percentis, kpis, cenario, ano_num):
-    nome = catalogo.loc[kpi, "nome"]
-    unidade = catalogo.loc[kpi, "unidade"]
-    direcao = catalogo.loc[kpi, "direcao"]
-
-    faixa = linha_de_percentis(percentis, kpi, ano_num)
-    mediana = faixa["p50"]
-
-    with coluna_da_tela:
-        if cenario == OPCAO_MEDIANA:
-            valor = mediana
-        else:
-            valor = valor_do_cenario(kpis, cenario, ano_num, kpi)
-
-        if pd.isna(valor) or pd.isna(mediana):
-            st.metric(nome, "n/d")
-            st.caption("Sem valor neste ano: a conta não existe no encerramento da concessão.")
-            return
-
-        texto_faixa = formatar(faixa["p5"], unidade) + " a " + formatar(faixa["p95"], unidade)
-        if cenario == OPCAO_MEDIANA:
-            st.metric(nome, formatar(mediana, unidade))
-            st.caption("Faixa de 90% dos cenários: " + texto_faixa)
-        else:
-            diferenca = formatar_diferenca(valor - mediana, unidade) + " vs mediana"
-            st.metric(nome, formatar(valor, unidade), delta=diferenca, delta_color=COR_DO_DELTA[direcao])
-            texto = "Mediana: " + formatar(mediana, unidade) + " | faixa de 90%: " + texto_faixa
-            if valor < faixa["p5"] or valor > faixa["p95"]:
-                texto = texto + " | fora da faixa de 90%"
-            st.caption(texto)
-
-
-def mostrar_cartoes(lista_de_kpis, colunas_por_linha, catalogo, percentis, kpis, cenario, ano_num):
-    for inicio in range(0, len(lista_de_kpis), colunas_por_linha):
-        kpis_da_linha = lista_de_kpis[inicio:inicio + colunas_por_linha]
-        colunas_da_tela = st.columns(colunas_por_linha)
-        for coluna_da_tela, kpi in zip(colunas_da_tela, kpis_da_linha):
-            mostrar_cartao(coluna_da_tela, kpi, catalogo, percentis, kpis, cenario, ano_num)
-
-
-def converter_para_exibicao(valores, unidade):
-    if unidade == "R$":
-        return valores / 1e6
-    if unidade == "%":
-        return valores * 100
-    return valores
-
-
-def montar_grafico_faixa(kpi, catalogo, percentis, kpis, cenario, ano_num):
-    nome = catalogo.loc[kpi, "nome"]
-    unidade = catalogo.loc[kpi, "unidade"]
-    formato = "%{y:,." + str(CASAS_DECIMAIS[unidade]) + "f}"
-
-    serie = percentis[percentis["kpi"] == kpi].sort_values("ano_num")
-    anos = serie["ano_calendario"]
-
-    figura = go.Figure()
-    figura.add_trace(
-        go.Scatter(
-            x=anos,
-            y=converter_para_exibicao(serie["p95"], unidade),
-            mode="lines",
-            line={"width": 0},
-            showlegend=False,
-            hovertemplate="P95: " + formato + "<extra></extra>",
-        )
-    )
-    figura.add_trace(
-        go.Scatter(
-            x=anos,
-            y=converter_para_exibicao(serie["p5"], unidade),
-            mode="lines",
-            line={"width": 0},
-            fill="tonexty",
-            fillcolor=COR_DA_FAIXA,
-            name="Faixa de 90% (P5 a P95)",
-            hovertemplate="P5: " + formato + "<extra></extra>",
-        )
-    )
-    figura.add_trace(
-        go.Scatter(
-            x=anos,
-            y=converter_para_exibicao(serie["p50"], unidade),
-            mode="lines+markers",
-            line={"color": COR_DA_MEDIANA},
-            name="Mediana dos 1.200 cenários",
-            hovertemplate="Mediana: " + formato + "<extra></extra>",
-        )
-    )
-    if cenario != OPCAO_MEDIANA:
-        linhas = kpis[kpis["cenario"] == cenario].sort_values("ano_num")
-        figura.add_trace(
-            go.Scatter(
-                x=linhas["ano_calendario"],
-                y=converter_para_exibicao(linhas[kpi], unidade),
-                mode="lines+markers",
-                line={"color": COR_DO_CENARIO},
-                name=cenario,
-                hovertemplate=cenario + ": " + formato + "<extra></extra>",
-            )
-        )
-
-    figura.add_vrect(
-        x0=ANO_BASE + 11.5,
-        x1=ANO_BASE + 12.5,
-        fillcolor="gray",
-        opacity=0.12,
-        line_width=0,
-        annotation_text="encerramento",
-        annotation_position="top left",
-        annotation_textangle=-90,
-    )
-    figura.add_vline(x=ANO_BASE + ano_num, line_dash="dot", line_color="gray")
-    figura.update_layout(
-        title=nome + " por ano",
-        height=380,
-        separators=",.",
-        hovermode="x unified",
-        legend={"orientation": "h", "y": -0.2},
-        margin={"l": 60, "r": 10, "t": 50, "b": 10},
-        xaxis={"dtick": 1, "range": [ANO_BASE + 0.5, ANO_BASE + 12.5], "title": None},
-        yaxis={"title": TITULO_DO_EIXO[unidade], "automargin": True},
-    )
-    return figura
-
-
-def marcar_eventos(kpis):
-    return pd.DataFrame(
-        {
-            "ano_num": kpis["ano_num"],
-            "ano_calendario": kpis["ano_calendario"],
-            EVENTOS_ADVERSOS[0]: kpis["saldo_final_caixa"] <= LIMITE_CAIXA_ZERADO,
-            EVENTOS_ADVERSOS[1]: kpis["dfc_variacao_liquida"] < 0,
-            EVENTOS_ADVERSOS[2]: kpis["payout_caixa"] > 1,
-            EVENTOS_ADVERSOS[3]: kpis["cobertura_dividendos"] < 1,
-        }
-    )
-
-
-def calcular_risco_por_ano(kpis):
-    eventos = marcar_eventos(kpis)
-    por_ano = eventos.groupby(["ano_num", "ano_calendario"])[EVENTOS_ADVERSOS]
-    contagem = por_ano.sum().reset_index()
-    percentual = por_ano.mean().mul(100).reset_index()
-    return contagem, percentual
-
-
-def mostrar_cartoes_de_risco(contagem, percentual, ano_num, total_de_cenarios):
-    linha_contagem = contagem[contagem["ano_num"] == ano_num].iloc[0]
-    linha_percentual = percentual[percentual["ano_num"] == ano_num].iloc[0]
-    for coluna_da_tela, evento in zip(st.columns(4), EVENTOS_ADVERSOS):
-        with coluna_da_tela:
-            st.metric(evento, numero_br(linha_percentual[evento], 1) + "%")
-            st.caption(
-                numero_br(linha_contagem[evento], 0)
-                + " de "
-                + numero_br(total_de_cenarios, 0)
-                + " cenários"
-            )
-
-
-def montar_grafico_risco(percentual, ano_num):
-    figura = go.Figure()
-    for evento in EVENTOS_ADVERSOS:
-        figura.add_trace(
-            go.Scatter(
-                x=percentual["ano_calendario"],
-                y=percentual[evento],
-                mode="lines+markers",
-                line={"color": COR_DOS_EVENTOS[evento], "width": 4 if evento == EVENTOS_ADVERSOS[0] else 2},
-                name=evento,
-                hovertemplate=evento + ": %{y:,.1f}%<extra></extra>",
-            )
-        )
-    figura.add_vrect(
-        x0=ANO_BASE + 11.5,
-        x1=ANO_BASE + 12.5,
-        fillcolor="gray",
-        opacity=0.12,
-        line_width=0,
-        annotation_text="encerramento",
-        annotation_position="top left",
-        annotation_textangle=-90,
-    )
-    figura.add_vline(x=ANO_BASE + ano_num, line_dash="dot", line_color="gray")
-    figura.update_layout(
-        title="% dos cenários em que o evento ocorre, por ano",
-        height=400,
-        separators=",.",
-        hovermode="x unified",
-        legend={"orientation": "h", "y": -0.2},
-        margin={"l": 60, "r": 10, "t": 50, "b": 10},
-        xaxis={"dtick": 1, "range": [ANO_BASE + 0.5, ANO_BASE + 12.5], "title": None},
-        yaxis={"title": "% dos cenários", "range": [-3, 103], "automargin": True},
-    )
-    return figura
-
-
-def nota_de_risco(kpis):
-    total = kpis["cenario"].nunique()
-    texto = (
-        "Percentuais sobre os "
-        + numero_br(total, 0)
-        + " cenários da CTI. 0% e 100% indicam eventos que ocorrem igual em todos os cenários."
-    )
-
-    caixa_zerado = kpis[kpis["saldo_final_caixa"] <= LIMITE_CAIXA_ZERADO]
-    if not caixa_zerado.empty:
-        primeiro = int(caixa_zerado["cenario_num"].min())
-        ultimo = int(caixa_zerado["cenario_num"].max())
-        texto = texto + f" Na base, os casos de caixa zerado estão nos cenários numerados de {primeiro} a {ultimo}."
-
-    if (kpis["lucro_liquido"] < 0).sum() == 0 and (kpis["eva"] < 0).sum() == 0:
-        texto = texto + " Prejuízo líquido e EVA negativo não ocorrem em nenhum cenário e ano."
-
-    extremos = kpis.groupby("ano_num")["dfc_dividendos"].agg(["min", "max"])
-    anos_com_dividendo_fixo = int(((extremos["max"] - extremos["min"]).abs() < 1).sum())
-    texto = texto + f" Os dividendos pagos são iguais em todos os cenários em {anos_com_dividendo_fixo} dos 12 anos."
-    return texto
-
-
-def main():
-    st.set_page_config(page_title="Grafix - CTI", layout="wide")
-
-    kpis = carregar_kpis()
-    catalogo = carregar_catalogo()
-    percentis = carregar_percentis()
-
+def mostrar_filtros(kpis):
     st.sidebar.header("Filtros")
     cenarios = [OPCAO_MEDIANA] + sorted(kpis["cenario"].unique())
     cenario = st.sidebar.selectbox("Cenário", cenarios)
     ano_num = st.sidebar.selectbox("Ano", list(range(1, 13)), index=4, format_func=rotulo_ano)
+    return cenario, ano_num
 
+
+def mostrar_cabecalho(cenario, ano_num):
     st.title("Grafix - Plataforma Analítica de Planejamento Financeiro")
     st.write(
         "Concessionária de rodovias (case CTI Global): a base traz 1.200 futuros possíveis "
@@ -385,40 +38,19 @@ def main():
 
     st.subheader(cenario + " - " + rotulo_ano(ano_num))
 
-    nomes_das_abas = list(PERSPECTIVAS)
-    abas = st.tabs(nomes_das_abas)
-    for aba, nome_da_aba in zip(abas, nomes_das_abas):
-        perspectiva = PERSPECTIVAS[nome_da_aba]
-        with aba:
-            st.markdown("**" + perspectiva["pergunta"] + "**")
-            mostrar_cartoes(
-                perspectiva["kpis"],
-                perspectiva["colunas"],
-                catalogo,
-                percentis,
-                kpis,
-                cenario,
-                ano_num,
-            )
 
-            nomes_dos_kpis = {kpi: catalogo.loc[kpi, "nome"] for kpi in perspectiva["kpis"]}
-            kpi_do_grafico = st.selectbox(
-                "Indicador no gráfico",
-                perspectiva["kpis"],
-                index=perspectiva["kpis"].index(perspectiva["kpi_padrao"]),
-                format_func=nomes_dos_kpis.get,
-                key="indicador_" + nome_da_aba,
-            )
-            figura = montar_grafico_faixa(kpi_do_grafico, catalogo, percentis, kpis, cenario, ano_num)
-            st.plotly_chart(figura, key="grafico_" + nome_da_aba)
+def main():
+    st.set_page_config(page_title="Grafix - CTI", layout="wide")
 
-    st.subheader("Risco ao longo dos anos")
-    st.write("Em quantos dos cenários cada evento acontece, ano a ano.")
-    contagem, percentual = calcular_risco_por_ano(kpis)
-    total_de_cenarios = kpis["cenario"].nunique()
-    mostrar_cartoes_de_risco(contagem, percentual, ano_num, total_de_cenarios)
-    st.plotly_chart(montar_grafico_risco(percentual, ano_num), key="grafico_risco")
-    st.caption(nota_de_risco(kpis))
+    kpis = carregar_kpis()
+    catalogo = carregar_catalogo()
+    percentis = carregar_percentis()
+
+    cenario, ano_num = mostrar_filtros(kpis)
+    mostrar_cabecalho(cenario, ano_num)
+    mostrar_perspectivas(catalogo, percentis, kpis, cenario, ano_num)
+    mostrar_risco(kpis, ano_num)
+    mostrar_ano_12(catalogo, percentis, kpis, cenario)
 
     st.caption(
         "Fonte: CTI Global, projeção anonimizada (Ano 1 = 2027). A mediana é calculada por KPI "
