@@ -68,3 +68,22 @@ COR_DOS_EVENTOS = {
     "Payout acima de 100%": "#2ca02c",
     "Cobertura de dividendos abaixo de 1": "#9467bd",
 }
+ANO_ENCERRAMENTO = 12
+KPIS_DO_ANO_12 = [
+    "dfc_caixa_inicial",
+    "dfc_fco",
+    "dfc_investimentos",
+    "dfc_dividendos",
+    "dfc_caixa_final",
+]
+ITENS_DA_PONTE = [
+    "dfc_caixa_inicial",
+    "dfc_fco",
+    "dfc_investimentos",
+    "dfc_juros_liquidos",
+    "dfc_dividendos",
+    "dfc_caixa_final",
+]
+COR_DE_AUMENTO = "#2ca02c"
+COR_DE_QUEDA = "#d62728"
+COR_DO_TOTAL = "#1f77b4"
