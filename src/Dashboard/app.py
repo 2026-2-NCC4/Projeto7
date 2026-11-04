@@ -10,6 +10,7 @@ from formatacao import rotulo_ano
 from secoes.ano_12 import mostrar_ano_12
 from secoes.perspectivas import mostrar_perspectivas
 from secoes.risco import mostrar_risco
+from secoes.sensibilidade import mostrar_sensibilidade
 
 
 def mostrar_filtros(kpis):
@@ -51,6 +52,7 @@ def main():
     mostrar_perspectivas(catalogo, percentis, kpis, cenario, ano_num)
     mostrar_risco(kpis, ano_num)
     mostrar_ano_12(catalogo, percentis, kpis, cenario)
+    mostrar_sensibilidade(kpis, cenario)
 
     st.caption(
         "Fonte: CTI Global, projeção anonimizada (Ano 1 = 2027). A mediana é calculada por KPI "
