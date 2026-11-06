@@ -90,3 +90,78 @@ COR_DO_TOTAL = "#1f77b4"
 WACC_BASE = 0.10
 ALIQUOTA_BASE = 0.34
 COR_DO_ESCOLHIDO = "#ff7f0e"
+PENALIDADE_POR_ANO_DE_RISCO = 0.02
+METRICAS_DO_SCORE = [
+    {
+        "nome": "VP dos EVAs",
+        "peso": 0.25,
+        "melhor": "Maior",
+        "definicao": (
+            "Valor criado acima do custo de capital: soma do EVA de cada ano, descontado ao WACC "
+            "(2027 a 2038)."
+        ),
+    },
+    {
+        "nome": "EVA acumulado",
+        "peso": 0.15,
+        "melhor": "Maior",
+        "definicao": (
+            "Soma do EVA dos 12 anos, sem desconto. EVA = EBIT x (1 - alíquota) - capital "
+            "investido x WACC."
+        ),
+    },
+    {
+        "nome": "Margem EBITDA média",
+        "peso": 0.125,
+        "melhor": "Maior",
+        "definicao": (
+            "EBITDA sobre a receita líquida, média dos 12 anos (inclui o Ano 12, de margem acima "
+            "de 100%): quanto da receita vira geração operacional."
+        ),
+    },
+    {
+        "nome": "Lucro líquido acumulado",
+        "peso": 0.125,
+        "melhor": "Maior",
+        "definicao": (
+            "Soma do resultado final para o acionista nos 12 anos, depois de juros e impostos."
+        ),
+    },
+    {
+        "nome": "Liquidez corrente média",
+        "peso": 0.10,
+        "melhor": "Maior",
+        "definicao": (
+            "Ativo circulante sobre passivo circulante, média só dos anos em que o passivo "
+            "circulante é positivo. Acima de 1, o curto prazo está coberto."
+        ),
+    },
+    {
+        "nome": "Caixa mínimo",
+        "peso": 0.10,
+        "melhor": "Maior",
+        "definicao": (
+            "Menor saldo final de caixa entre os 12 anos: o colchão de liquidez no pior momento."
+        ),
+    },
+    {
+        "nome": "PCT média",
+        "peso": 0.075,
+        "melhor": "Menor",
+        "definicao": (
+            "Participação de capital de terceiros: (passivo circulante + não circulante) sobre o "
+            "patrimônio líquido, média só dos anos em que o passivo circulante e o patrimônio "
+            "líquido são positivos."
+        ),
+    },
+    {
+        "nome": "Composição do endividamento média",
+        "peso": 0.075,
+        "melhor": "Menor",
+        "definicao": (
+            "Parcela da dívida que vence em até 12 meses: passivo circulante sobre (circulante + "
+            "não circulante), média só dos anos em que o passivo circulante é positivo. No Ano 12 "
+            "a base não informa passivo não circulante, então a CE desse ano é 100%."
+        ),
+    },
+]

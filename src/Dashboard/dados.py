@@ -23,6 +23,11 @@ def carregar_percentis():
     return pd.read_csv(PASTA_STAGING / "percentis.csv")
 
 
+@st.cache_data
+def carregar_ranking():
+    return pd.read_csv(PASTA_STAGING / "top10_ranking.csv")
+
+
 def linha_de_percentis(percentis, kpi, ano_num):
     filtro = (percentis["kpi"] == kpi) & (percentis["ano_num"] == ano_num)
     return percentis[filtro].iloc[0]
