@@ -1,5 +1,5 @@
 """
-Dados (src/Staging): kpis.parquet, kpi_catalogo.csv e percentis.csv.
+Dados (src/Entrega 2/Staging): kpis.parquet, kpi_catalogo.csv e percentis.csv.
 """
 
 import pandas as pd
