@@ -21,6 +21,9 @@ Um dos principais diferenciais da solução é a capacidade de transformar dados
 
 Mais do que uma ferramenta de análise, o Grafix busca atuar como um apoio estratégico para a gestão financeira, conectando tecnologia, dados e inteligência de negócio em uma única plataforma. O resultado é uma solução moderna, escalável e orientada a dados, capaz de transformar informações em conhecimento e conhecimento em decisões mais eficientes.
 
+## Acesso ao Dashboard
+https://grafix-dashboard-cti.streamlit.app/
+
 ## 📄 Entregas
 | **Disciplina**              | **Entrega 1**                      | **Entrega 2**                        |
 |-------------------------|--------------------------------|----------------------------------|
