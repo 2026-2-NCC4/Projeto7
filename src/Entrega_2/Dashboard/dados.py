@@ -1,5 +1,5 @@
 """
-Dados (src/Staging): kpis.parquet, kpi_catalogo.csv e percentis.csv.
+Dados (src/Entrega_2/Staging): kpis.parquet, kpi_catalogo.csv e percentis.csv.
 """
 
 import pandas as pd
@@ -21,6 +21,11 @@ def carregar_catalogo():
 @st.cache_data
 def carregar_percentis():
     return pd.read_csv(PASTA_STAGING / "percentis.csv")
+
+
+@st.cache_data
+def carregar_ranking():
+    return pd.read_csv(PASTA_STAGING / "top10_ranking.csv")
 
 
 def linha_de_percentis(percentis, kpi, ano_num):
