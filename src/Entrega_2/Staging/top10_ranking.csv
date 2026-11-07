@@ -1,0 +1,11 @@
+posicao,cenario,score,receita_liquida_acumulada_mi,ebitda_acumulado_mi,lucro_liquido_acumulado_mi,vp_dos_evas_mi,liquidez_corrente_media,caixa_minimo_mi,justificativa
+1,Cen_01128,0.8789375,100416.905,91133.973,47512.562,20524.096,1.4635,359.967,"Maior criação de valor dos 1.200 cenários (VP dos EVAs de R$ 20524,096 mi) e maior lucro acumulado. Único ponto fraco: aperto de liquidez em 2028 (1 ano-risco)."
+2,Cen_01127,0.865095,99654.827,90401.359,47029.073,20369.689,1.4369,301.316,"Mesmo perfil do 1º e valor quase igual (R$ 20369,689 mi). Fica atrás pelo caixa mínimo menor: R$ 301,316 mi contra R$ 359,967 mi."
+3,Cen_01126,0.831432,98899.111,89674.864,46549.622,20216.555,1.4103,242.87,"Fecha a família líder: lucro e valor no topo, mas o caixa mais apertado dos três (mínimo de R$ 242,870 mi)."
+4,Cen_01088,0.81385,93122.441,84009.252,43295.9,19187.337,1.9664,445.16,"O mais seguro da simulação: maior caixa mínimo (R$ 445,160 mi) e nenhum ano-risco. Cria menos valor que o pódio."
+5,Cen_01087,0.805875,92417.174,83342.918,42875.575,19052.332,1.9883,393.064,"Réplica do 4º, sem ano-risco, um degrau abaixo em valor (R$ 135,005 mi a menos) e em caixa."
+6,Cen_01086,0.800575,91717.73,82682.09,42458.755,18918.439,2.0197,341.151,"O mais líquido do trio conservador (LC média de 2,02), mas com a menor escala entre os seis primeiros."
+7,Cen_01125,0.797818,98149.705,88954.436,46074.176,20064.685,1.3837,184.628,"Cria mais valor que o 4º, 5º e 6º, mas cai pela liquidez: caixa mínimo de R$ 184,628 mi e aperto em 2028."
+8,Cen_01124,0.791987,97406.556,88240.026,45602.702,19914.067,1.3572,126.589,"Alto valor para o acionista, porém a menor folga de caixa do Top 10 (R$ 126,589 mi)."
+9,Cen_01085,0.78525,91024.059,82026.721,42045.411,18785.647,2.0653,289.42,"Consistente: LC média de 2,07 e nenhum ano-risco, mas sem destaque em valor."
+10,Cen_00736,0.7777,87282.711,78730.1,40964.574,17934.142,1.8874,162.776,"Único fora das duas famílias dominantes; sem ano-risco, porém com VP dos EVAs só 1,0% acima da mediana."

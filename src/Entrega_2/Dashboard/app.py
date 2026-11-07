@@ -5,10 +5,11 @@ Dashboard Grafix (case CTI Global): monta a página e chama uma função por se�
 import streamlit as st
 
 from configuracao import OPCAO_MEDIANA
-from dados import carregar_catalogo, carregar_kpis, carregar_percentis
+from dados import carregar_catalogo, carregar_kpis, carregar_percentis, carregar_ranking
 from formatacao import rotulo_ano
 from secoes.ano_12 import mostrar_ano_12
 from secoes.perspectivas import mostrar_perspectivas
+from secoes.ranking import mostrar_ranking
 from secoes.risco import mostrar_risco
 from secoes.sensibilidade import mostrar_sensibilidade
 
@@ -46,6 +47,7 @@ def main():
     kpis = carregar_kpis()
     catalogo = carregar_catalogo()
     percentis = carregar_percentis()
+    ranking = carregar_ranking()
 
     cenario, ano_num = mostrar_filtros(kpis)
     mostrar_cabecalho(cenario, ano_num)
@@ -53,6 +55,7 @@ def main():
     mostrar_risco(kpis, ano_num)
     mostrar_ano_12(catalogo, percentis, kpis, cenario)
     mostrar_sensibilidade(kpis, cenario)
+    mostrar_ranking(ranking)
 
     st.caption(
         "Fonte: CTI Global, projeção anonimizada (Ano 1 = 2027). A mediana é calculada por KPI "
