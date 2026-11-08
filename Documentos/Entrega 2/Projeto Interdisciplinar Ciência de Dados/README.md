@@ -2,7 +2,7 @@
 
 ## Entrega 2
 
-Aqui estão disponíveis os links em relação ao Dashboard.
+Aqui estão disponíveis os links em relação a entrega do Dashboard.
 
 ---
 
