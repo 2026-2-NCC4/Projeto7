@@ -59,8 +59,87 @@ https://grafix-dashboard-cti.streamlit.app/
 
 
 ## 💻 Configuração para Desenvolvimento
-### Pré-requisitos
-* Não é necessária a instalação de nehum pacote ou programa para rodar o projeto. É necessário apenas o upload da base de dados da CTI no site do Google Colab
+
+### Entrega 1 (Google Colab)
+Não é necessário instalar nada. Basta abrir o notebook em `src/Entrega 1` no Google Colab e fazer o upload da base de dados da CTI.
+
+### Entrega 2 (dashboard em Streamlit)
+O dashboard já está publicado em https://grafix-dashboard-cti.streamlit.app/. Para rodá-lo na sua máquina:
+
+**Pré-requisitos**
+* Python 3.11 ou superior (confira com `python --version`). O passo a passo foi testado com o Python 3.14
+* Git
+* Internet, apenas para baixar o repositório e instalar as bibliotecas
+
+**1. Baixar o projeto**
+
+```bash
+git clone https://github.com/2026-2-NCC4/Projeto7.git
+cd Projeto7
+```
+
+**2. Criar e ativar o ambiente virtual**
+
+No macOS ou Linux:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+No Windows (PowerShell):
+
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+```
+
+**3. Instalar as bibliotecas**
+
+```bash
+pip install -r src/Entrega_2/Dashboard/requirements.txt
+```
+
+**4. Abrir o dashboard**
+
+```bash
+streamlit run src/Entrega_2/Dashboard/app.py
+```
+
+O navegador abre em http://localhost:8501. Para encerrar, volte ao terminal e aperte `Ctrl+C`. Os dados já estão prontos na pasta `src/Entrega_2/Staging`, então não é preciso rodar os notebooks para ver o dashboard.
+
+**Problemas comuns**
+
+**Regenerar os dados**
+
+Os arquivos de `Staging` foram gerados a partir da base original que está em `src/Entrega_2/Processing`. Para refazer o processo, instale o Jupyter no mesmo ambiente virtual e abra a pasta dos notebooks:
+
+```bash
+pip install notebook
+jupyter notebook src/Entrega_2/Notebooks
+```
+
+Execute cada notebook um de cada vez, **nesta ordem**:
+
+| Ordem | Notebook | Lê | Grava em `Staging` |
+| :--- | :--- | :--- | :--- |
+| 1 | `preparacao_dados.ipynb` | `Processing/Demonstrativo Fecap v3.csv` | `base_larga.parquet` |
+| 2 | `kpis.ipynb` | `base_larga.parquet` | `kpis.parquet`, `kpi_catalogo.csv`, `percentis.csv` |
+| 3 | `ranking.ipynb` | `kpis.parquet` | `top10_referencia.csv`, `top10_ranking.csv` |
+
+Os notebooks usam caminhos relativos (`../Processing` e `../Staging`), por isso devem ser abertos a partir da pasta `Notebooks`, como no comando acima.
+
+**Bibliotecas utilizadas**
+
+| Bibliotecas | 
+| :--- | 
+| `streamlit` |
+| `plotly` | 
+| `pandas` | 
+| `numpy` | 
+| `pyarrow` | 
+
+  
 ## 📋 Licença/License
 <a href="https://github.com/2026-2-NCC4/Projeto7">Grafix</a> © 2026 by <a href="https://github.com/fecaphub">Enzo Henrique Neves Sena, Harry Zhu, Murilo Angelo Pimentel Braggio, Vitor Paes Kolle, FECAP</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
 <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .1em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .1em;"><img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .1em;">
