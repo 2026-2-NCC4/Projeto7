@@ -37,25 +37,32 @@ https://grafix-dashboard-cti.streamlit.app/
 
 ## 🛠 Estrutura de pastas
 
--Raiz<br>
-|<br>
-|-->documentos<br>
-  &emsp;|-->Entrega 1<br>
-      &emsp;&emsp;|-->Análise Inferencial de Dados<br>
-      &emsp;&emsp;|-->Contabilidade e Finanças<br>
-      &emsp;&emsp;|-->Engenharia de Software e Arquitetura de Sistemas<br>
-      &emsp;&emsp;|-->Projeto Interdisciplinar Ciência de Dados<br>
-  &emsp;|-->Entrega 2<br>
-      &emsp;&emsp;|-->Análise Inferencial de Dados<br>
-      &emsp;&emsp;|-->Contabilidade e Finanças<br>
-      &emsp;&emsp;|-->Engenharia de Software e Arquitetura de Sistemas<br>
-      &emsp;&emsp;|-->Projeto Interdisciplinar Ciência de Dados<br>
-|-->imagens<br>
-|-->src<br>
-  &emsp;|-->Entrega 1<br>
-         &emsp;&emsp;|-->Notebook.ipynb - Google Colab<br>
-  &emsp;|-->Entrega 2<br>
-|readme.md<br>
+```text
+Projeto7
+├── Documentos
+│   ├── Entrega 1
+│   │   ├── Análise Inferencial de Dados
+│   │   ├── Contabilidade e Finanças
+│   │   ├── Engenharia de Software e Arquitetura de Sistemas
+│   │   └── Projeto Interdisciplinar Ciência de Dados
+│   ├── Entrega 2
+│   │   ├── Análise Inferencial de Dados
+│   │   ├── Contabilidade e Finanças
+│   │   ├── Engenharia de Software e Arquitetura de Sistemas
+│   │   └── Projeto Interdisciplinar Ciência de Dados
+│   └── README.md (declaração de uso de inteligência artificial)                      
+├── Imagens
+├── img
+└── src
+    ├── Entrega 1
+    │   └── Projeto_Interdisciplinar_Ciência_de_Dados.ipynb  
+    └── Entrega_2
+        ├── Dashboard                  
+        ├── Notebooks                  
+        ├── Processing                 
+        └── Staging
+|README.md            
+```
 
 
 ## 💻 Configuração para Desenvolvimento
