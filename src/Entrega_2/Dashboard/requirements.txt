@@ -1,4 +1,5 @@
 streamlit>=1.40
 plotly>=5.24
 pandas>=2.2
+numpy>=1.26
 pyarrow>=16
