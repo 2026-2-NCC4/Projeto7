@@ -15,6 +15,17 @@
 | ***Prompts* principais utilizados** | [preencher] |
 | **Trechos ou entregas afetadas** | [preencher] |
 
+### Projeto Interdisciplinar: Ciência de Dados
+
+| **Aluno(s) Responsável(veis)**      | Vitor Kolle |
+| :---------------------------------- | :---------- |
+| **Ferramenta utilizada**            | Chat GPT |
+| **Versão/modelo**                   | GPT 5 |
+| **Disciplina / Trabalho**           | Análise Inferencial de Dados - Entrega 1 |
+| **Finalidade de uso**               | Apoio na criação de representações gráficas, na discussão e base de cálculo do projeto |
+| ***Prompts* principais utilizados** | 1. "Como eu crio representações gráficas usando Python, tendo dataFrames?" <br><br>2. "Para que analisar uma empresa através de seu Balanço pode ser útil?"<br><br>3. "Como eu faço para converter valores em texto para número e na mesma operação já atribuir o formato brasileiro?"<br><br>|
+| **Trechos ou entregas afetadas**    | `Relatório:` Revisão de texto e estrutura do relatório. `Notebook(Colab):` Criação de gráficos e conversão de dados, além da formatação dos mesmos|
+
 
 ### Projeto Interdisciplinar: Ciência de Dados
 
