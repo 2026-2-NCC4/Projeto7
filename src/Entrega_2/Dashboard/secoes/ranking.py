@@ -41,7 +41,7 @@ def mostrar_explicacao_do_score():
         )
         st.markdown(
             "**Premissas:** WACC de " + formatar(WACC_BASE, "%") + " e alíquota de IR e CS de " + formatar(ALIQUOTA_BASE, "%")
-            + "O capital investido é calculado com sinal: -(patrimônio líquido + empréstimos "
+            + ". O capital investido é calculado com sinal: -(patrimônio líquido + empréstimos "
             "de curto e longo prazo), uma premissa do grupo. A base guarda passivo e patrimônio líquido com sinal "
             "negativo, e o passivo circulante muda de sinal em alguns anos: esses anos ficam fora das médias de LC, "
             "PCT e CE (entram de 4 a 11 anos por cenário). O ranking não muda com os controles da seção de sensibilidade."
