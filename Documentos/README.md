@@ -15,7 +15,7 @@
 | ***Prompts* principais utilizados** | [preencher] |
 | **Trechos ou entregas afetadas** | [preencher] |
 
-### Projeto Interdisciplinar: Ciência de Dados
+### Análise Inferencial de Dados
 
 | **Aluno(s) Responsável(veis)**      | Vitor Kolle |
 | :---------------------------------- | :---------- |
