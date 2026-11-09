@@ -2,7 +2,7 @@
 ### **DECLARAÇÃO DE USO DE INTELIGÊNCIA ARTIFICIAL**
 
 ## Entrega 1
-<br><br>
+<br>
 
 ### Disciplina 1
 
@@ -16,16 +16,16 @@
 | **Trechos ou entregas afetadas** | [preencher] |
 
 
-### Disciplina 2
+### Projeto Interdisciplinar: Ciência de Dados
 
-| **Aluno(s) Responsável(veis)**      | [preencher] |
+| **Aluno(s) Responsável(veis)**      | Murilo Ângelo |
 | :---------------------------------- | :---------- |
-| **Ferramenta utilizada**            | [preencher] |
-| **Versão/modelo**                   | [preencher] |
-| **Disciplina / Trabalho**           | [preencher] |
-| **Finalidade de uso**               | [preencher] |
-| ***Prompts* principais utilizados** | [preencher] |
-| **Trechos ou entregas afetadas**    | [preencher] |
+| **Ferramenta utilizada**            | Claude Web |
+| **Versão/modelo**                   | Claude Sonnet 5.5 |
+| **Disciplina / Trabalho**           | Projeto Interdisciplinar: Ciência de Dados - Entrega 1 |
+| **Finalidade de uso**               | Apoio na criação de visualizações gráficas com Matplotlib, seleção e limpeza dos registros, além da uniformização e padronização dos dados financeiros utilizando Python. |
+| ***Prompts* principais utilizados** | 1. "Como posso criar visualizações gráficas utilizando Matplotlib para representar e facilitar a leitura e interpretação dos dados da base financeira?" <br><br>2. "Como identificar e remover os registros que possuem valores ausentes na coluna `conta`??"<br><br>3. "Como posso padronizar os dados de texto, removendo espaços desnecessários e uniformizando os formatos das informações utilizando Pandas?"<br><br>4. "Os valores financeiros da minha base estão armazenados como texto. Como posso realizar a conversão e padronização desses valores para o formato numérico?" |
+| **Trechos ou entregas afetadas**    | `Projeto_Interdisciplinar_Ciência_de_Dados.ipynb` (Notebook), desenvolvido no Google Colab: criação de visualizações com Matplotlib, seleção e limpeza dos registros, uniformização dos dados. |
 
 ### Contabilidade e Finanças
 
@@ -39,7 +39,7 @@
 | **Trechos ou entregas afetadas**    | Planilha `Entrega1-Contabilidade.xlsx` (Google Sheets), nas abas `consulta_cenario` (consulta e calculadora por cenário), `calculo_indices` (fórmulas dos KPIs), `ranking_dados` e `ranking_cenarios` (score e Top 10 dos cenários).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 
 ## Entrega 2
-<br><br>
+<br>
 
 ### Análise Inferencial de Dados
 
