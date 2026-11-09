@@ -67,7 +67,7 @@ Não é necessário instalar nada. Basta abrir o notebook em `src/Entrega 1` no 
 O dashboard já está publicado em https://grafix-dashboard-cti.streamlit.app/. Para rodá-lo na sua máquina:
 
 **Pré-requisitos**
-* Python 3.11 ou superior (confira com `python --version`). O passo a passo foi testado com o Python 3.14
+* Python 3.11 ou superior (confira com `python --version`).
 * Git
 * Internet, apenas para baixar o repositório e instalar as bibliotecas
 
