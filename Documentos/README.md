@@ -4,17 +4,6 @@
 ## Entrega 1
 <br>
 
-### Disciplina 1
-
-| **Aluno(s) Responsável(veis)** |[preencher] |
-| :--- | :--- |
-| **Ferramenta utilizada** | [preencher] |
-| **Versão/modelo** | [preencher] |
-| **Disciplina / Trabalho** | [preencher] |
-| **Finalidade de uso** | [preencher] |
-| ***Prompts* principais utilizados** | [preencher] |
-| **Trechos ou entregas afetadas** | [preencher] |
-
 ### Análise Inferencial de Dados
 
 | **Aluno(s) Responsável(veis)**      | Vitor Kolle |
@@ -49,6 +38,17 @@
 | ***Prompts* principais utilizados** | **1.** "Tenho uma base de dados de uma concessionaria de rodovias da CTI (projecao de 12 anos, de 2027 a 2038, com balanco, DRE e fluxo de caixa) com 1.200 cenarios, como faco pra montar uma tabela dinamica com excel que consegue puxar os dados de cada cenario e montar uma calculadora em cima desses cenarios puxados?"<br><br>**2.** "Me traga as formulas em excel para calcular os seguintes KPIs: liquidez corrente, liquidez seca, liquidez imediata, liquidez geral, participacao de capital de terceiros, composicao do endividamento, imobilizacao do patrimonio liquido, EBITDA, margem EBITDA, EVA, MVA, receita operacional bruta, custos (producao / servicos), geracao de caixa do periodo, saldo final de caixa, lucro liquido do periodo e distribuicao ao acionista"<br><br>**3.** "Me ajude a montar um score com os seguintes indicadores: VP dos EVAs, EVA acumulado, margem EBITDA media, lucro liquido acumulado, liquidez corrente media, caixa minimo, PCT media e composicao do endividamento media"<br><br>**4.** "Como fazer para puxar os dados da base e utilizando a formula do score, indicar os melhores 10 cenarios?" |
 | **Trechos ou entregas afetadas**    | Planilha `Entrega1-Contabilidade.xlsx` (Google Sheets), nas abas `consulta_cenario` (consulta e calculadora por cenário), `calculo_indices` (fórmulas dos KPIs), `ranking_dados` e `ranking_cenarios` (score e Top 10 dos cenários).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 
+
+### Engenharia e Arquitetura de Software
+
+| **Aluno(s) Responsável(veis)**      | Enzo Henrique |
+| :---------------------------------- | :---------- |
+| **Ferramenta utilizada**            | Google Gemini |
+| **Versão/modelo**                   | Gemini 1.5 Pro |
+| **Disciplina / Trabalho**           | Engenharia e Arquitetura de Software — Entrega 1 |
+| **Finalidade de uso**               | Apoio na estruturação conceitual da apresentação, elicitação e especificação dos Requisitos Funcionais (RF) e Não Funcionais (RNF), modelagem do fluxo Entrada-Processamento-Saída (IPO) e fundamentação teórica da metodologia ágil baseada em Kanban adaptado. |
+| ***Prompts* principais utilizados** | 1. "Como justificar a escolha de um fluxo de trabalho em Kanban adaptado em vez de Scrum para um projeto acadêmico de software com equipe multitarefa e marcos fixos de entrega?"<br><br>2. "A partir do escopo de uma plataforma de dados contábeis com mais de 1 milhão de registros e 1.200 cenários de Monte Carlo, elabore uma lista de Requisitos Funcionais (RF01 a RF14) contendo descrição e critérios objetivos de aceitação."<br><br>3. "Quais são os principais Requisitos Não Funcionais (RNF) para uma solução de software analítica considerando desempenho, portabilidade em nuvem, reprodutibilidade e conformidade com LGPD?"<br><br>4. "Como estruturar uma modelagem de Entrada, Processamento e Saída (IPO) para um pipeline em Python/Pandas que recebe demonstrações financeiras (BAL, DRE, FLU) e gera dashboards e relatórios?" |
+| **Trechos ou entregas afetadas**    | Apresentação `Entrega 1: Engenharia e Arquitetura de Software Grafix` (`Aplicacao_Metodos_Ageis_e_Engenharia_de_Requisitos_Grafix.pdf`): seções de Metodologia Ágil, Especificação de Requisitos RF e RNF, Modelagem IPO e Casos de Uso. |
 ## Entrega 2
 <br>
 
@@ -84,8 +84,17 @@
 | **Disciplina / Trabalho**           | Contabilidade e Finanças — Entrega 2 (indicadores financeiros e ranking de cenários)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | **Finalidade de uso**               | Auxílio na implementação dos cálculos dos indicadores na planilha da Entrega 1 em Python: EBIT, capital investido, EVA, fluxo de caixa pelo método direto e demais KPIs.  Seções do dashboard de risco, ponte de caixa do Ano 12, sensibilidade a WACC e alíquota, e Top 10 com explicação do score. A IA leu e conferiu se a planilha de Contabilidade da Entrega 1  estava batendo com os cálculos realizados para o dashboard                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | ***Prompts* principais utilizados** | **1.** "Quero montar três visões diferentes, uma para o Gestor, uma para Investidores e outra para Controle. Quais desses KPIs são melhores para cada tipo de perspectiva? Receita líquida, EBITDA, Margem EBITDA, Variação líquida do caixa, Saldo final de caixa, Caixa operacional (FCO), Lucro líquido, EVA, Fluxo de caixa livre (FCL), Cobertura de dividendos, Payout em caixa, Dividendos, Taxa de conversão, Cobertura de juros em caixa, Ciclo financeiro, Prazo médio de pagamento (PMP), Prazo médio de recebimento (PMR)"<br><br>**2.** "Qual o melhor tipo de gráfico para mostrar esse(s) [indicadore(s)]?"<br><br>**3.** "Quando o usuário escolhe um cenário, os valores calculados precisam ser comparados com a mediana de todos os cenários e mostrar o quanto maior ou menor o valor é em relação à mediana, com uma mensagem do tipo ‘X% acima da mediana’. Como calculo isso para cada KPI?"<br><br>**4.** "Segue a planilha de Contabilidade da Entrega 1 [arquivo.xlsx] e o `kpis.parquet` que gerei no notebook. Leia os dois e me diga se os resultados batem, KPI por KP." |
-| **Trechos ou entregas afetadas**    | `src/Entrega_2/Notebooks/kpis.ipynb` os arquivos `top10_referencia.csv` e `top10_ranking.csv`, as seções `risco`, `ano_12`, `sensibilidade` e `ranking` do dashboard.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| **Trechos ou entregas afetadas**    | `src/Entrega_2/Notebooks/kpis.ipynb` os arquivos `top10_referencia.csv` e `top10_ranking.csv`, as seções `risco`, `ano_12`, `sensibilidade` e `ranking` do dashboard.  |
 
-***Declaro que o uso acima descrito está em conformidade com o GUIA PARA O USO RESPONSÁVEL DE
-INTELIGÊNCIA ARTIFICIAL NA FECAP e que o conteúdo final é de minha plena responsabilidade
-autoral.***
+### Engenharia e Arquitetura de Software
+
+### Engenharia e Arquitetura de Software
+
+| **Aluno(s) Responsável(veis)** | Enzo Henrique |
+| :--- | :--- |
+| **Ferramenta utilizada** | Claude (Anthropic) |
+| **Versão/modelo** | Claude Sonnet 5.5 |
+| **Disciplina / Trabalho** | Engenharia de Software e Arquitetura de Sistemas — Entrega 2 |
+| **Finalidade de uso** | Apoio na estruturação do documento, especificação dos casos de uso (UC001–UC016), geração e revisão da sintaxe PlantUML dos diagramas UML e tabelas de rastreabilidade. |
+| ***Prompts* principais utilizados** | **1.** "Gere a sintaxe PlantUML para um diagrama de casos de uso com os atores Usuário do Dashboard, Analista Financeiro e Gestor da CTI Global, incluindo os casos de uso das 6 telas do Grafix."<br><br>**2.** "Crie o código PlantUML do diagrama de classes separando em três módulos: Usuários, Dados/Serviços e Análise/Métricas, isolando as regras de negócio nas classes de serviço MotorFinanceiro e MotorEstatistico."<br><br>**3.** "Revise este código PlantUML, corrija erros de sintaxe nas relações (include, extend e herança) e organize a orientação visual para melhorar a legibilidade."<br><br>**4.** "Ajude a montar a tabela de rastreabilidade mapeando cada caso de uso (UC001 a UC016) para suas respectivas classes e métodos do diagrama." |
+| **Trechos ou entregas afetadas** | Documento `Grafix_Entrega2_Template_FECAP_v3(2).docx.pdf`: diagramas UML em PlantUML (Casos de Uso e Classes), especificações dos UCs e tabela de rastreabilidade. |
